@@ -2,11 +2,9 @@
 
 A Django REST API that:
 
-Accepts a start and finish location (within USA)
-
-Retrieves the route geometry
-
-Calculates optimal fuel stops based on lowest fuel prices
+  - Accepts a start and finish location (within USA).
+  - Retrieves the route geometry.
+  - Calculates optimal fuel stops based on lowest fuel prices.
 
 Assumes:
 
