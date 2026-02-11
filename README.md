@@ -25,7 +25,7 @@ Features
 Database Design: ... 
 The database stores fuel prices, trips, and fuel stops.
 
-<img width="824" height="700" alt="Untitled (1)" src="https://github.com/user-attachments/assets/ff7dc54d-34b0-4b44-ad2a-ddd7620fd1e3" />
+<img width="824" height="637" alt="DB" src="https://github.com/user-attachments/assets/a558c367-f325-4f87-b494-6b02587794d1" />
 
 Tables:
 - FuelPrice – Stores fuel price per state
