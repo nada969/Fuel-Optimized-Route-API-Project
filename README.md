@@ -76,36 +76,37 @@ This flow minimizes computations and external dependencies, leveraging Django’
 ## API Endpoint
 * **POST** /api/route/
   * Request Body (JSON):
-
-{
-  "start": "New York, NY",
-  "end": "Los Angeles, CA"
-}
-
+    ```bash 
+      {
+        "start": "New York, NY",
+        "end": "Los Angeles, CA"
+      }
+     ```
   * Response (JSON):
-
-{
-  "route": {
-    "distance_miles": 2790,
-    "geometry": "GeoJSON or polyline data"
-  },
-  "fuel_stops": [
-    {
-      "location": "Station Name, City, State",
-      "mile_marker": 450,
-      "price_per_gallon": 3.50
-    },
-    // Additional stops...
-  ],
-  "total_cost": 975.50
-}
-
+     ```bash 
+     {
+       "route": {
+         "distance_miles": 2790,
+         "geometry": "GeoJSON or polyline data"
+       },
+       "fuel_stops": [
+         {
+           "location": "Station Name, City, State",
+           "mile_marker": 450,
+           "price_per_gallon": 3.50
+         },
+         // Additional stops...
+       ],
+       "total_cost": 975.50
+     }
+     ```
 ## Example
 Using curl:
-curl -X POST http://localhost:8000/api/route/ \
--H "Content-Type: application/json" \
--d '{"start": "Chicago, IL", "end": "Miami, FL"}.'
-
+   ```bash 
+   curl -X POST http://localhost:8000/api/route/ \
+   -H "Content-Type: application/json" \
+   -d '{"start": "Chicago, IL", "end": "Miami, FL"}.'
+   ```
 ## Development Notes
 * Geocoding: Preprocess fuel station addresses to add latitude and longitude (using free tools like Nominatim or the US Census API).
 * Optimization: Utilize caching (e.g., Redis) for frequently accessed routes to minimize API calls.
