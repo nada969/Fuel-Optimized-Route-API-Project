@@ -1,5 +1,7 @@
 # Fuel-Optimized-Route-API-Project
-
+[![Django](https://img.shields.io/badge/Django-5.0-green.svg)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 A Django REST API that:
   - Accepts a start and finish location (within USA).
   - Retrieves the route geometry.
