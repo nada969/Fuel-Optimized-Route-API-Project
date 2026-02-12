@@ -65,9 +65,7 @@ This flow minimizes computations and external dependencies, leveraging Django’
    ROUTING_API_KEY=your_openrouteservice_key
    DATABASE_URL=postgres://user:pass@localhost/dbname
 1. Load fuel data:
-  * Run migrations:```bash
-                    python manage.py migrate
-                    ```
+  * Run migrations: ```bash python manage.py migrate ```
   * Import Excel data: ```bash  python manage.py import_fuel_data path/to/fuel-prices-for-be-assessment.xlsx ```
 
 2. Start the server:
