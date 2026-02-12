@@ -49,9 +49,9 @@ This flow minimizes computations and external dependencies, leveraging Django’
 
 ## Installation
 1. Clone the repository:
-git clone https://github.com/yourusername/fuel-route-optimizer.git
-cd fuel-route-optimizer
-
+   ```bash
+   git clone https://github.com/[your-actual-username]/fuel-route-optimizer.git
+   Navigate into the directory:Bashcd fuel-route-optimizer
 1. Create a virtual environment:
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -70,7 +70,7 @@ python manage.py runserver
 
 ## Usage
 ## API Endpoint
-* POST /api/route/
+* **POST** /api/route/
   * Request Body (JSON):
 
 {
