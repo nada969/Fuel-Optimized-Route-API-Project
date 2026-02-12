@@ -50,23 +50,27 @@ This flow minimizes computations and external dependencies, leveraging Django’
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/[your-actual-username]/fuel-route-optimizer.git
-   Navigate into the directory:Bashcd fuel-route-optimizer
+   git clone https://github.com/nada969/fuel-route-optimizer.git
+   cd fuel-route-optimizer
 1. Create a virtual environment:
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```bash 
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
 1. Install dependencies:
-pip install -r requirements.txt
+   ```bash 
+   pip install -r requirements.txt
 1. Set up environment variables (e.g., in .env):
-SECRET_KEY=your_django_secret_key
-ROUTING_API_KEY=your_openrouteservice_key
-DATABASE_URL=postgres://user:pass@localhost/dbname
+   ```bash 
+   SECRET_KEY=your_django_secret_key
+   ROUTING_API_KEY=your_openrouteservice_key
+   DATABASE_URL=postgres://user:pass@localhost/dbname
 1. Load fuel data:
-  * Run migrations: python manage.py migrate
-  * Import Excel data: python manage.py import_fuel_data path/to/fuel-prices-for-be-assessment.xlsx
+  * Run migrations: ```bash  python manage.py migrate
+  * Import Excel data: ```bash  python manage.py import_fuel_data path/to/fuel-prices-for-be-assessment.xlsx
 
 2. Start the server:
-python manage.py runserver
+   ```bash 
+   python manage.py runserver
 
 ## Usage
 ## API Endpoint
