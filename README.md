@@ -47,9 +47,6 @@ This flow minimizes computations and external dependencies, leveraging Django’
 * Database: PostgreSQL recommended (with PostGIS for spatial features).
 * Free API Key: From OpenRouteService or Geoapify.
 
-## Database Schema
-<img width="824" height="628" alt="Untitled" src="https://github.com/user-attachments/assets/64b5de27-5f40-41e4-a4e4-52050481c11e" />
-
 ## Installation
 1. Clone the repository:
    ```bash
