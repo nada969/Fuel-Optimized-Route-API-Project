@@ -48,7 +48,7 @@ This flow minimizes computations and external dependencies, leveraging Django’
 * Free API Key: From OpenRouteService or Geoapify.
 
 ## Database Schema
-<img width="1912" height="803" alt="image" src="https://github.com/user-attachments/assets/670b8ed6-a794-4843-98ba-3c1716c68151" />
+<img width="824" height="718" alt="Untitled" src="https://github.com/user-attachments/assets/7d0de422-03c2-43f0-bd6e-de9db41adecd" />
 
 ## Installation
 1. Clone the repository:
