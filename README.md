@@ -78,35 +78,35 @@ This flow minimizes computations and external dependencies, leveraging Django’
   * Request Body (JSON):
     ```bash 
       {
-        "start": "New York, NY",
-        "end": "Los Angeles, CA"
+        "start_location": "New York, NY",
+        "end_location": "Los Angeles, CA"
       }
      ```
   * Response (JSON):
      ```bash 
      {
-       "route": {
-         "distance_miles": 2790,
-         "geometry": "GeoJSON or polyline data"
-       },
-       "fuel_stops": [
-         {
-           "location": "Station Name, City, State",
+      "route": {
+          "distance_miles": 2797.0,
+          "start_location": "New York, NY, USA",
+          "end_location": "Los Angeles, CA, USA",
+          "duration_hours": 45.0
+      },
+      "fuel_stops": [
+          {
+              "location": "Station Name, City, State",
            "mile_marker": 450,
            "price_per_gallon": 3.50
          },
          // Additional stops...
-       ],
-       "total_cost": 975.50
-     }
+      ],
+      "summary": {
+          "total_fuel_cost": 724.75,
+          "total_gallons_needed": 279.7,
+          "num_stops": 5,
+          "avg_price_per_gallon": 2.59
+      }
      ```
-## Example
-Using curl:
-   ```bash 
-   curl -X POST http://localhost:8000/api/route/ \
-   -H "Content-Type: application/json" \
-   -d '{"start": "Chicago, IL", "end": "Miami, FL"}.'
-   ```
+
 ## Development Notes
 * Geocoding: Preprocess fuel station addresses to add latitude and longitude (using free tools like Nominatim or the US Census API).
 * Optimization: Utilize caching (e.g., Redis) for frequently accessed routes to minimize API calls.

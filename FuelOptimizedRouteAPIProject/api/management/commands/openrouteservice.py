@@ -1,10 +1,11 @@
 import requests
 import os
+from django.conf import settings
 
 def get_route(start, finish):
-    api_key = os.getenv("ROUTING_API_KEY")
+    api_key = settings.OPENROUTESERVICE_API_KEY
 
-    url = "https://api.openrouteservice.org/v2/directions/driving-car"
+    url = "https://api.openrouteservice.org"
     
     headers = {
         "Authorization": api_key,
@@ -18,5 +19,4 @@ def get_route(start, finish):
         ]
     }
 
-    response = requests.post(url, json=body, headers=headers)
-    return response.json()
+    return api_key, url, headers, body

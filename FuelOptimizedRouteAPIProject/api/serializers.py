@@ -3,7 +3,6 @@ from rest_framework import serializers
 from decimal import Decimal
 class FuelStationSerializer(serializers.ModelSerializer):
     # """Serializer for fuel station data"""
-    
     class Meta:
         model = FuelStation
         fields = [
@@ -20,10 +19,8 @@ class FuelStationSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id']
 
-
 class FuelStationMinimalSerializer(serializers.ModelSerializer):
     # """Minimal serializer for nested fuel station data"""
-    
     class Meta:
         model = FuelStation
         fields = [
@@ -36,7 +33,6 @@ class FuelStationMinimalSerializer(serializers.ModelSerializer):
             'latitude',
             'longitude',
         ]
-
 
 class FuelStopSerializer(serializers.ModelSerializer):
     # """Serializer for fuel stops with nested station info"""
@@ -77,7 +73,7 @@ class RouteSerializer(serializers.ModelSerializer):
             'created_at',
         ]
         read_only_fields = ['id', 'created_at']
-
+ 
 
 class RouteRequestSerializer(serializers.Serializer):
     # """Serializer for route calculation request"""

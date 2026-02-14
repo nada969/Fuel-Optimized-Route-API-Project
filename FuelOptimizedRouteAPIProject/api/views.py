@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from .models import *
@@ -10,66 +11,9 @@ from django.db import transaction
 from decimal import Decimal
 
 
-@api_view(['GET'])
-def list_fuel_stations(request):
-    # """
-    # List all fuel stations 
-    # GET /api/fuel-stations/
-    # """
-    queryset = FuelStation.objects.all()
-    
-    # Filter by state
-    state = request.GET.get('state')
-    if state:
-        queryset = queryset.filter(state__iexact=state)
-    
-    # Search in name and city
-    search = request.GET.get('search')
-    if search:
-        queryset = queryset.filter(
-            Q(name__icontains=search) | 
-            Q(city__icontains=search)
-        )
-    
-    # Ordering (default: cheapest first)
-    ordering = request.GET.get('ordering', 'retail_price')
-    if ordering in ['retail_price', '-retail_price', 'name', 'city', 'state']:
-        queryset = queryset.order_by(ordering)
-    
-    # Limit results
-    limit = int(request.GET.get('limit', 20))
-    queryset = queryset[:limit]
-    
-    serializer = FuelStationSerializer(queryset, many=True)
-    
-    return Response({
-        'count': len(serializer.data),
-        'results': serializer.data
-    })
-
-
 @api_view(['POST'])
 def calculate_route(request):
-    """
-    Calculate optimal route with fuel stops using OpenRouteService
-    
-    POST /api/calculate_route/
-    
-    Request body:
-    {
-        "start_location": "New York, NY",
-        "end_location": "Los Angeles, CA",
-        "fuel_efficiency_mpg": 10.0,  
-        "tank_range_miles": 500.0     
-    }
-    
-    Response:
-    {
-        "route": {...},
-        "map_data": {...},
-        "summary": {...}
-    }
-    """
+    # Calculate optimal route with fuel stops using OpenRouteService
     # Validate request
     serializer = RouteRequestSerializer(data=request.data)
     if not serializer.is_valid():
@@ -113,7 +57,7 @@ def calculate_route(request):
                 total_gallons_needed=total_gallons,
                 fuel_efficiency_mpg=Decimal(str(fuel_efficiency_mpg)),
                 tank_range_miles=Decimal(str(tank_range_miles)),
-                route_polyline=str(route_data['geometry'])
+                route_polyline=json.dumps(route_data['geometry'])
             )
             
             # Create fuel stops
@@ -138,31 +82,33 @@ def calculate_route(request):
             else 0
         )
         
+        fuel_stops_response = []
+        for stop in fuel_stops_data:
+            fuel_stops_response.append({
+                'location': f"{stop['station'].name}, {stop['station'].city}, {stop['station'].state}",
+                'mile_marker': round(stop['distance_from_start'], 0),
+                'price_per_gallon': float(stop['station'].retail_price)
+            })
+        
+        # Custom response
         response_data = {
-            'route': route_serializer.data,
-            'map_data': {
-                'geometry': route_data['geometry'],
-                'bbox': route_data['bbox'],
-                'start_coords': {
-                    'lat': route_data['start']['lat'],
-                    'lon': route_data['start']['lon']
-                },
-                'end_coords': {
-                    'lat': route_data['end']['lat'],
-                    'lon': route_data['end']['lon']
-                }
+            'route': {
+                'distance_miles': round(float(total_distance), 0),
+                'start_location': route_data['start']['display_name'],
+                'end_location': route_data['end']['display_name'],
+                'duration_hours': round(route_data['duration_seconds'] / 3600, 1)
             },
+            'fuel_stops': fuel_stops_response,
             'summary': {
+                'total_fuel_cost': round(float(total_cost), 2),
+                'total_gallons_needed': round(float(total_gallons), 1),
                 'num_stops': len(fuel_stops_data),
-                'avg_price_per_gallon': round(avg_price, 2),
-                'total_distance_miles': float(total_distance),
-                'total_fuel_cost': float(total_cost),
-                'total_gallons_needed': float(total_gallons),
-                'estimated_duration_hours': round(route_data['duration_seconds'] / 3600, 2)
+                'avg_price_per_gallon': round(avg_price, 2)
             }
         }
         
         return Response(response_data, status=status.HTTP_201_CREATED)
+        
         
     except ValueError as e:
         return Response(
@@ -175,27 +121,6 @@ def calculate_route(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
-
-@api_view(['GET'])
-def get_route(request, route_id):
-    """
-    Get a specific route by ID
-    
-    GET /api/route/{id}/
-    """
-    try:
-        route = Route.objects.get(id=route_id)
-        serializer = RouteSerializer(route)
-        return Response(serializer.data)
-    except Route.DoesNotExist:
-        return Response(
-            {'error': 'Route not found'},
-            status=status.HTTP_404_NOT_FOUND
-        )
-
-
-@api_view(['GET'])
-def list_routes(request):
     """
     List all calculated routes
     
